@@ -47,7 +47,7 @@ class MyCollectionView: UIViewController, UICollectionViewDataSource, UICollecti
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
-        collectionView.collectionViewLayout.invalidateLayout()
+        // Important for screen rotation or resizing, on iPad for example
     }
     
     // MARK: - UICollectionViewDataSource

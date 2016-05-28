@@ -191,24 +191,31 @@ class MyCollectionViewFlowLayout: UICollectionViewFlowLayout {
         return CGSizeMake(collectionView.frame.width, maxOriginY)
     }
     
+    
     // MARK: layoutAttributesForElementsInRect
     override func layoutAttributesForElementsInRect(rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
         
         var allAttributes: [UICollectionViewLayoutAttributes] = [UICollectionViewLayoutAttributes]()
-        
-        for (_, attributes) in layoutInfo {
-            if CGRectIntersectsRect(rect, attributes.frame) {
-                allAttributes.append(attributes)
-            }
-        }
-        
+
         // Header
         for (_, attributes) in layoutHeaderInfo {
             if CGRectIntersectsRect(rect, attributes.frame) {
                 allAttributes.append(attributes)
             }
         }
+        
+        for (_, attributes) in layoutInfo {
+            if CGRectIntersectsRect(rect, attributes.frame) {
+                allAttributes.append(attributes)
+            }
+        }
+
         return allAttributes
+    }
+    
+    // MARK: Header and cells layout attributes
+    override func layoutAttributesForSupplementaryViewOfKind(elementKind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionViewLayoutAttributes? {
+        return layoutHeaderInfo[indexPath]
     }
     
     override func layoutAttributesForItemAtIndexPath(indexPath: NSIndexPath) -> UICollectionViewLayoutAttributes? {
@@ -216,41 +223,21 @@ class MyCollectionViewFlowLayout: UICollectionViewFlowLayout {
     }
     
     
+    
     override func shouldInvalidateLayoutForBoundsChange(newBounds: CGRect) -> Bool {
-        // if you don't want to re-calculate everything on scroll -
-        
+        // if you don't want to re-calculate everything on scroll
         return !CGSizeEqualToSize(newBounds.size, self.collectionView!.frame.size)
     }
     
     
     override func shouldInvalidateLayoutForPreferredLayoutAttributes(preferredAttributes: UICollectionViewLayoutAttributes, withOriginalAttributes originalAttributes: UICollectionViewLayoutAttributes) -> Bool {
         
-        if (originalAttributes.indexPath == NSIndexPath(forItem: 0, inSection: sectionItem2)) {
+        if (originalAttributes.indexPath.section >= sectionText) {
             // true only for sections that needs to be updated (the ones that are changing size)
-            // = the ones that are using preferredLayoutAttributesFittingAttributes to self-resize
+            // ie. the ones that are using preferredLayoutAttributesFittingAttributes to self-resize
             return true
         }
         return false
     }
-    
-    
-    override func invalidationContextForPreferredLayoutAttributes(preferredAttributes: UICollectionViewLayoutAttributes, withOriginalAttributes
-        originalAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutInvalidationContext {
-        
-        let context = super.invalidationContextForPreferredLayoutAttributes(preferredAttributes, withOriginalAttributes: originalAttributes)
-        
-        let originalSize = originalAttributes.frame.size
-        let preferredSize = preferredAttributes.frame.size
-        context.contentSizeAdjustment = CGSizeMake(preferredSize.width - originalSize.width, preferredSize.height - originalSize.height)
-        
-        return context
-    }
-    
-    
-    
-    // MARK: Header
-    
-    override func layoutAttributesForSupplementaryViewOfKind(elementKind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionViewLayoutAttributes? {
-        return layoutHeaderInfo[indexPath]
-    }
+
 }
