@@ -9,7 +9,7 @@ To cover most of the configurations you can encounter while working on a `UIColl
 
 I also added resizable headers in the sections 3 and 4.
 
-![Video of the custom layout](https://github.com/strawberrycode/SCCollectionViewCustomLayout/blob/master/Images/SCCollectionViewCustomLayout.mp4)
+![Custom layout](https://github.com/strawberrycode/SCCollectionViewCustomLayout/blob/master/Images/SCCollectionViewCustomLayout.gif)
 
 
 ## Tutorials
