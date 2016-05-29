@@ -17,31 +17,31 @@ class MyCollectionViewFlowLayout: UICollectionViewFlowLayout {
     var layoutHeaderInfo = [NSIndexPath: UICollectionViewLayoutAttributes]()
     var collectionViewWidth: CGFloat = 0
     var maxOriginY: CGFloat = 0
-    
+
     // keep track of max height values to avoid scroll jumps when you have a long collectionView
     var headerHeight = [NSIndexPath: CGFloat]()
     var textHeight: CGFloat = 0.0
-    
+
     var itemsPerRow = 0
-    
+
     let numberOfSections = 4
-    
+
     let sectionImage = 0
     let sectionText = 1
     let sectionItem = 2
     let sectionItem2 = 3
-    
-    
+
+
     override init() {
         super.init()
         setup()
     }
-    
+
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)!
         setup()
     }
-    
+
     func setup() {
         // setting up some inherited values
         
@@ -57,8 +57,8 @@ class MyCollectionViewFlowLayout: UICollectionViewFlowLayout {
         itemWidth = getItemWidth()
         headerReferenceSize = CGSizeMake(collectionViewWidth, 50)
     }
-    
-    
+
+
     func getItemWidth() -> CGFloat {
         // small iphones:   2 items in a row
         // iPhone 6+        3
@@ -125,13 +125,13 @@ class MyCollectionViewFlowLayout: UICollectionViewFlowLayout {
                     }
                     layoutInfo[indexPath] = itemAttributes
                     
-//                    print("- \(i).\(j): itemAttributes y: \(itemAttributes.frame.origin.y) - itemAttributes height: \(itemAttributes.frame.size.height) - maxOriginY: \(maxOriginY)")
+    //                    print("- \(i).\(j): itemAttributes y: \(itemAttributes.frame.origin.y) - itemAttributes height: \(itemAttributes.frame.size.height) - maxOriginY: \(maxOriginY)")
                 }
             }
         }
     }
-    
-    
+
+
     func frameForItemAtIndexPath(indexPath: NSIndexPath) -> CGRect {
         
         if (indexPath.section == sectionImage) {
@@ -212,12 +212,12 @@ class MyCollectionViewFlowLayout: UICollectionViewFlowLayout {
 
         return allAttributes
     }
-    
+
     // MARK: Header and cells layout attributes
     override func layoutAttributesForSupplementaryViewOfKind(elementKind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionViewLayoutAttributes? {
         return layoutHeaderInfo[indexPath]
     }
-    
+
     override func layoutAttributesForItemAtIndexPath(indexPath: NSIndexPath) -> UICollectionViewLayoutAttributes? {
         return layoutInfo[indexPath]
     }
@@ -228,8 +228,8 @@ class MyCollectionViewFlowLayout: UICollectionViewFlowLayout {
         // if you don't want to re-calculate everything on scroll
         return !CGSizeEqualToSize(newBounds.size, self.collectionView!.frame.size)
     }
-    
-    
+
+
     override func shouldInvalidateLayoutForPreferredLayoutAttributes(preferredAttributes: UICollectionViewLayoutAttributes, withOriginalAttributes originalAttributes: UICollectionViewLayoutAttributes) -> Bool {
         
         if (originalAttributes.indexPath.section >= sectionText) {
